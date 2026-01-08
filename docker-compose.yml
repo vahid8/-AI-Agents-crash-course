@@ -1,0 +1,4 @@
+services:
+  day1:
+    build: ./Day1_Ingest_and_index_your_data
+    container_name: day1-ingest

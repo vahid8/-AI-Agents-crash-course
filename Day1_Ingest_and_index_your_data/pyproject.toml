@@ -1,0 +1,9 @@
+[project]
+name = "day1-ingest-and-index"
+version = "0.1.0"
+description = "Ingest and index data from GitHub repositories"
+requires-python = ">=3.11"
+dependencies = [
+    "requests>=2.31.0",
+    "python-frontmatter>=1.1.0",
+]
