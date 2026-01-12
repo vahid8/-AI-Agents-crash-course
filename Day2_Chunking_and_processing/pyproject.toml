@@ -1,0 +1,10 @@
+[project]
+name = "day2-chunking-and-processing"
+version = "0.1.0"
+description = "Chunking strategies for preparing documents for AI agents"
+requires-python = ">=3.11"
+dependencies = [
+    "requests>=2.31.0",
+    "python-frontmatter>=1.1.0",
+    "python-dotenv>=1.0.0",
+]
