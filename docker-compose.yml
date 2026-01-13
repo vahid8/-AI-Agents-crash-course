@@ -6,3 +6,7 @@ services:
   day2:
     build: ./Day2_Chunking_and_processing
     container_name: day2-chunking
+
+  day3:
+    build: ./Day3_Search
+    container_name: day3-search

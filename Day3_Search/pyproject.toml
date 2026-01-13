@@ -1,0 +1,13 @@
+[project]
+name = "day3-search"
+version = "0.1.0"
+description = "Day 3: Search - Text, Vector, and Hybrid Search"
+requires-python = ">=3.10"
+dependencies = [
+    "requests>=2.31.0",
+    "python-frontmatter>=1.0.0",
+    "minsearch>=0.1.0",
+    "sentence-transformers>=2.2.0",
+    "numpy>=1.24.0",
+    "tqdm>=4.65.0",
+]

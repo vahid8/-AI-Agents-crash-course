@@ -126,3 +126,62 @@ docker run --rm --env-file .env -e OPENROUTER_MODEL=anthropic/claude-3-haiku ai_
 ```
 
 Default model: `google/gemini-2.0-flash-001` (fast and cheap)
+
+## Day 3: Search - Text, Vector, and Hybrid
+
+Today I learned about three search approaches for AI agents:
+- **Text Search (Lexical)**: Fast keyword matching using minsearch
+- **Vector Search (Semantic)**: Find similar content using embeddings with sentence-transformers
+- **Hybrid Search**: Combine both approaches for best results
+
+### Key Insight
+
+Always start with the simplest approach. For search, that's text search. Add complexity (vector search) only when basic approaches prove insufficient.
+
+### Run it
+
+First build:
+```bash
+docker-compose build day3
+```
+
+Run text search demo (lightweight, no ML models):
+```bash
+docker run --rm ai_agent_crashcoourse-day3
+```
+
+Or explicitly:
+```bash
+docker run --rm ai_agent_crashcoourse-day3 python main.py --demo-text
+```
+
+Run full demo with all search methods (downloads ~100MB embedding model):
+```bash
+docker run --rm ai_agent_crashcoourse-day3 python main.py --demo
+```
+
+### Search Methods Explained
+
+**Text Search**: Uses minsearch library for fast lexical matching. Great for exact keywords and specific terms.
+
+```python
+from minsearch import Index
+
+index = Index(
+    text_fields=["chunk", "title", "description", "filename"],
+    keyword_fields=[]
+)
+index.fit(chunks)
+results = index.search("data drift", num_results=5)
+```
+
+**Vector Search**: Uses sentence-transformers to encode text into embeddings. Finds semantically similar content even with different words.
+
+```python
+from sentence_transformers import SentenceTransformer
+
+model = SentenceTransformer('multi-qa-distilbert-cos-v1')
+embeddings = [model.encode(chunk['text']) for chunk in chunks]
+```
+
+**Hybrid Search**: Runs both methods and deduplicates results for comprehensive coverage.
