@@ -10,3 +10,7 @@ services:
   day3:
     build: ./Day3_Search
     container_name: day3-search
+
+  day4:
+    build: ./Day4_Agents
+    container_name: day4-agents

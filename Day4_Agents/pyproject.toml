@@ -1,0 +1,11 @@
+[project]
+name = "day4-agents"
+version = "0.1.0"
+description = "Day 4: Agents and Tools - Building the conversational agent"
+requires-python = ">=3.10"
+dependencies = [
+    "requests>=2.31.0",
+    "python-frontmatter>=1.0.0",
+    "python-dotenv>=1.0.0",
+    "minsearch>=0.1.0",
+]

@@ -185,3 +185,74 @@ embeddings = [model.encode(chunk['text']) for chunk in chunks]
 ```
 
 **Hybrid Search**: Runs both methods and deduplicates results for comprehensive coverage.
+
+## Day 4: Agents and Tools
+
+Today I learned how to build an actual AI agent with tool-calling capabilities:
+- **What is an Agent**: An LLM that can invoke tools, not just generate text
+- **Function Calling**: Define tools in JSON format for the LLM to use
+- **Agent Loop**: Call LLM → check for tool calls → execute tools → repeat
+- **System Prompts**: Guide agent behavior and tool usage
+
+### Key Insight
+
+**Tools are what distinguish agents from chatbots.** Without tools, an LLM can only respond from training data. With tools, it can access domain-specific, up-to-date information.
+
+### Run it
+
+First build:
+```bash
+docker-compose build day4
+```
+
+Run demo with sample questions:
+```bash
+docker run --rm -e OPENROUTER_API_KEY=your_key ai_agent_crashcoourse-day4
+```
+
+### Interactive Mode
+
+Chat with the agent interactively:
+```bash
+docker run --rm -it -e OPENROUTER_API_KEY=your_key ai_agent_crashcoourse-day4 python main.py --interactive
+```
+
+### Ask a Single Question
+
+```bash
+docker run --rm -e OPENROUTER_API_KEY=your_key ai_agent_crashcoourse-day4 python main.py -q "How do I submit homework?"
+```
+
+### Verbose Mode
+
+See what tools the agent is calling:
+```bash
+docker run --rm -e OPENROUTER_API_KEY=your_key ai_agent_crashcoourse-day4 python main.py -q "What are the prerequisites?" -v
+```
+
+### How It Works
+
+1. **Define Tools**: Describe functions in JSON format so the LLM knows how to use them
+2. **Send to LLM**: Include tools in the API call along with user message
+3. **Handle Tool Calls**: When LLM wants to use a tool, execute it and return results
+4. **Loop Until Done**: Continue until LLM provides final answer (no more tool calls)
+
+```python
+# Example tool definition
+text_search_tool = {
+    "type": "function",
+    "function": {
+        "name": "text_search",
+        "description": "Search the FAQ database",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {"type": "string", "description": "Search query"}
+            },
+            "required": ["query"]
+        }
+    }
+}
+```
+
+Default model: `google/gemini-2.0-flash-001`
