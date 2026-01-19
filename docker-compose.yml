@@ -14,3 +14,7 @@ services:
   day4:
     build: ./Day4_Agents
     container_name: day4-agents
+
+  day5:
+    build: ./Day5_Evaluation
+    container_name: day5-evaluation

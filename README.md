@@ -256,3 +256,84 @@ text_search_tool = {
 ```
 
 Default model: `google/gemini-2.0-flash-001`
+
+## Day 5: Evaluation
+
+Today I learned how to systematically evaluate AI agents:
+- **Logging**: Track all agent interactions for analysis
+- **LLM as a Judge**: Use AI to evaluate AI responses
+- **Test Data Generation**: Automatically generate test questions
+- **Metrics**: Calculate pass rates for different quality checks
+
+### Key Insight
+
+**Evaluation is critical for building reliable AI systems.** Without proper evaluation, you can't tell if your changes improve or hurt performance. Start with "vibe checks", then move to systematic evaluation with data.
+
+### Run it
+
+First build:
+```bash
+docker-compose build day5
+```
+
+Run full evaluation pipeline:
+```bash
+docker run --rm -e OPENROUTER_API_KEY=your_key ai_agent_crashcoourse-day5
+```
+
+### Demo Logging Only
+
+Log agent interactions without evaluation:
+```bash
+docker run --rm -e OPENROUTER_API_KEY=your_key ai_agent_crashcoourse-day5 python main.py --demo-logging
+```
+
+### Demo Evaluation
+
+Evaluate existing logs:
+```bash
+docker run --rm -e OPENROUTER_API_KEY=your_key ai_agent_crashcoourse-day5 python main.py --demo-eval
+```
+
+### Demo Test Generation
+
+Generate test questions from FAQ content:
+```bash
+docker run --rm -e OPENROUTER_API_KEY=your_key ai_agent_crashcoourse-day5 python main.py --demo-generate
+```
+
+### How It Works
+
+**1. Logging System**
+```python
+# Log every interaction
+log_path = save_log(agent, messages, source="user")
+```
+
+**2. LLM as a Judge**
+```python
+# Evaluation checklist
+checks = [
+    "instructions_follow",  # Did agent follow instructions?
+    "answer_relevant",      # Is answer relevant to question?
+    "answer_citations",     # Are sources cited?
+    "tool_usage",           # Was search tool used?
+]
+```
+
+**3. Metrics Calculation**
+```python
+# Calculate pass rates
+df = calculate_metrics(eval_results)
+# Output: answer_relevant: 95% pass rate
+```
+
+### Evaluation Checklist
+
+The LLM judge evaluates each response on:
+- `instructions_follow`: Agent followed the instructions
+- `answer_relevant`: Response addresses the question
+- `answer_clear`: Answer is clear and understandable
+- `answer_citations`: Proper citations included
+- `completeness`: Response covers key aspects
+- `tool_usage`: Search tool used appropriately
